@@ -1,0 +1,92 @@
+---
+title: "HW1 - DATA 609"
+author: "Thomas Hill"
+date: "September 5, 2021"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+__Ex. 1__ -- Find the minimum of $f(x,y) = x^2 + xy + y^2 in (x,y) \in	\mathbb{R}$ 
+
+
+The minimum can be found by taking the first partial derivative of the formula and solving for zero.
+
+$$ \frac{\partial}{\partial x} f(x,y) = 2x + y$$
+
+$$ 0 = 2x + y $$
+$$ x  = \frac{-y}{2} $$
+$$ \frac{\partial}{\partial y} f(x,y) = x + 2y$$
+$$ 0 = x + 2y $$
+
+
+$$ y  = \frac{-x}{2} $$
+
+The only values that satisfy these two differential equations are at the point (0,0).  
+
+
+To determine this is a minimum versus maximum, take the second derivative.
+$$ \frac {\partial ^2}{\partial x \partial y} f(x,y) = 1$$
+
+__Since this value is greater than zero, the value is a minimum.  There exists a minimum of f(x,y) at point (0,0).__  
+
+
+
+
+
+__Ex. 2__ -- For $f(x) = x^4 \in \mathbb{R}$, it has the global minimum at $x = 0$. Find its new minimum if a constraint $x^2 \geq 1$ is added.
+
+
+Using the penalty method:
+
+Let $g(x) = 1 - x^2$
+
+
+$$\Pi(x)  =f(x) +  \mu [g(x)]^2 = x^4 + \mu (1 - x^2)^2 $$
+
+$$\Pi '(x) = 4x^3 + 2 \mu (1 - x^2)(-2x) = 4x^3 + 4\mu x^3 - 4\mu x = 8\mu x^3 - 4\mu x = 4\mu x(x^2 - 1)= 0$$
+
+So,  $x_* = 0, \pm 1$.
+
+__The new minimum value of f(1) = f(-1) = 1.__ 
+
+
+
+
+__Ex. 3__ -- Use a Lagrange multiplier to solve the optimization problem $min f(x,y) = x^2 + 2xy + y^2$, subject to $y = x^2 -2$
+
+Define f and h:
+
+$$ f =  x^2 + 2xy + y^2, h = x^2 - y -2$$
+
+Substitute into formula:
+$$ \phi = f + \lambda h = x^2 + 2xy + y^2 + \lambda (x^2 - y -2)$$
+
+Differentiate with respect to x, y, $\lambda$, then set equal to zero:
+
+$$ \frac{\partial \phi}{\partial x} = 2x + 2y + 2\lambda x = (1 + \lambda)x + y = 0 $$
+
+$$ \frac{\partial \phi}{\partial y} = 2y + 2x -\lambda = 0 $$
+
+$$ \frac{\partial \phi}{\partial \lambda} = x^2 - y -2 = 0$$
+
+Substituting the second condition into the first:
+
+$$\lambda + 2\lambda x = 0$$
+We arrive at a value of x = -1/2
+
+Substituting into the third condition:
+
+$$ (-1/2)^2 - y - 2 = 0$$
+
+We arrive at a value of y = -7/4
+
+__Therefore, the optimality is located at (-1/2, -7/4) with a minimum value of f(x,y) = 81/16, or 5.0625.__
+
+

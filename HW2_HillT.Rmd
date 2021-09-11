@@ -1,0 +1,34 @@
+---
+title: "HW2 - DATA 609"
+author: "Thomas Hill"
+date: "September 18, 2021"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
+
+__Ex. 1__ -- Show that $x^2 + exp(x) + 2x^4 + 1$ is convex.  
+
+
+
+__Ex. 2__ -- Show that the mean of the exponential distribution
+
+$$p(x) = \begin{cases} 
+      \ \lambda e^{-\lambda x}, & 0 < \lambda \leq x \\
+      0, & x <  0 
+   \end{cases}
+$$
+
+is $\mu = \frac{1}{\lambda}$ and its variance is $\sigma = \frac{1}{\lambda^2}$.  
+
+
+
+__Ex. 3__ -- It is estimated that there is a typo in every 250 data entries in a database, assuming the number of typos can obey the Poisson distribution. For a given 1000 data entries, what is the probability that there are exactly 4 typos? What is the probability of no typo at all? Use _R_ to draw 1000 samples with $\lambda = 4$ and show their histogram.  

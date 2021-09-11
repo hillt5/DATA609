@@ -1,0 +1,142 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={HW1 - DATA 609},
+  pdfauthor={Thomas Hill},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{HW1 - DATA 609}
+\author{Thomas Hill}
+\date{September 5, 2021}
+
+\begin{document}
+\maketitle
+
+\textbf{Ex. 1} -- Find the minimum of
+\(f(x,y) = x^2 + xy + y^2 in (x,y) \in \mathbb{R}\)
+
+The minimum can be found by taking the first partial derivative of the
+formula and solving for zero.
+
+\[ \frac{\partial}{\partial x} f(x,y) = 2x + y\]
+
+\[ 0 = 2x + y \] \[ x  = \frac{-y}{2} \]
+\[ \frac{\partial}{\partial y} f(x,y) = x + 2y\] \[ 0 = x + 2y \]
+
+\[ y  = \frac{-x}{2} \]
+
+The only values that satisfy these two differential equations are at the
+point (0,0).
+
+To determine this is a minimum versus maximum, take the second
+derivative. \[ \frac {\partial ^2}{\partial x \partial y} f(x,y) = 1\]
+
+\textbf{Since this value is greater than zero, the value is a minimum.
+There exists a minimum of f(x,y) at point (0,0).}
+
+\textbf{Ex. 2} -- For \(f(x) = x^4 \in \mathbb{R}\), it has the global
+minimum at \(x = 0\). Find its new minimum if a constraint
+\(x^2 \geq 1\) is added.
+
+Using the penalty method:
+
+Let \(g(x) = 1 - x^2\)
+
+\[\Pi(x)  =f(x) +  \mu [g(x)]^2 = x^4 + \mu (1 - x^2)^2 \]
+
+\[\Pi '(x) = 4x^3 + 2 \mu (1 - x^2)(-2x) = 4x^3 + 4\mu x^3 - 4\mu x = 8\mu x^3 - 4\mu x = 4\mu x(x^2 - 1)= 0\]
+
+So, \(x_* = 0, \pm 1\).
+
+\textbf{The new minimum value of f(1) = f(-1) = 1.}
+
+\textbf{Ex. 3} -- Use a Lagrange multiplier to solve the optimization
+problem \(min f(x,y) = x^2 + 2xy + y^2\), subject to \(y = x^2 -2\)
+
+Define f and h:
+
+\[ f =  x^2 + 2xy + y^2, h = x^2 - y -2\]
+
+Substitute into formula:
+\[ \phi = f + \lambda h = x^2 + 2xy + y^2 + \lambda (x^2 - y -2)\]
+
+Differentiate with respect to x, y, \(\lambda\), then set equal to zero:
+
+\[ \frac{\partial \phi}{\partial x} = 2x + 2y + 2\lambda x = (1 + \lambda)x + y = 0 \]
+
+\[ \frac{\partial \phi}{\partial y} = 2y + 2x -\lambda = 0 \]
+
+\[ \frac{\partial \phi}{\partial \lambda} = x^2 - y -2 = 0\]
+
+Substituting the second condition into the first:
+
+\[\lambda + 2\lambda x = 0\] We arrive at a value of x = -1/2
+
+Substituting into the third condition:
+
+\[ (-1/2)^2 - y - 2 = 0\]
+
+We arrive at a value of y = -7/4
+
+\textbf{Therefore, the optimality is located at (-1/2, -7/4) with a
+minimum value of f(x,y) = 81/16, or 5.0625.}
+
+\end{document}
