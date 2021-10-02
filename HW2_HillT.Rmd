@@ -18,17 +18,162 @@ knitr::opts_chunk$set(echo = TRUE)
 __Ex. 1__ -- Show that $x^2 + exp(x) + 2x^4 + 1$ is convex.  
 
 
+__This function f(x) is convex if the following is true:__
+
+$$f(\alpha x + \beta y) \leq \alpha f(x)  + \beta f(y), \alpha \geq 0, \beta \geq 0, \alpha + \beta = 1$$
+
+__However, the consequent equation is time-consuming to simplify. One property of convex functions makes determining this easier:__
+
+__If $f_1$ and $f_2$ are convex, then $\alpha f_1 + \beta f_2$ is also convex for any $\alpha, \beta \geq 0$.__  
+
+
+__Consider $f_1 = x^2, $f_2 = 2x^4 + 1$, and $f_3 = exp(x)$:__
+
+$$f_1: (\alpha x + \beta y)^2 \leq  \alpha x^2   +  \beta y^2$$
+__A similar quadratic funciton has larady been solved in the lesson, but to recap:__
+
+$$ 0 \leq  \alpha x^2   +  \beta y^2 - (\alpha x + \beta y)^2 $$
+
+$$ 0 \leq \alpha x^2 - \alpha^2 x^2 + \beta y^2 - \beta ^2 y^2 - 2\alpha \beta xy$$
+__Factor out $\alpha$ and $\beta$ terms:__
+$$ 0 \leq \alpha x^2 ( 1 - \alpha ) + \beta y^2 (1 - \beta) - 2\alpha \beta xy = \alpha \beta x^2 + \alpha \beta y^2 - 2\alpha \beta xy $$
+
+$$ \alpha \beta (x^2 - 2xy - y^2) = \alpha \beta (x - y)^2 \geq 0$$
+
+__This inequality is always true for real numbers. Next, consider whether $exp(x)$ is convex:__  
+
+
+$$f_2: exp(\alpha x + \beta y) \leq  \alpha exp(x)   +  \beta exp(y)$$
+
+$$ 0 \leq  \alpha exp(x)   +  \beta exp(y) -  exp(\alpha x + \beta y)$$
+
+__Divide by $exp(x)$, which is permissible as this can never be equal to zero:__  
+
+
+$$ 0 \leq  \alpha   +  \beta exp(y - x) -  exp(\alpha x + \beta y - x) =  \alpha   +  \beta exp(y - x) -  exp(\beta y - x(1-\alpha))$$
+
+$$ 0 \leq  =  \alpha   +  \beta exp(y - x) -  exp(\beta (y - x)) = \alpha -exp(\frac{(y-x)^\beta}{\beta(y-x)}) = \alpha + \alpha exp(\frac{(y-x)}{\beta})$$
+
+__After much simplifying, we're left with two terms, both of which are non-negative for all real numbers.  Therefore exp(x) is convex.__
+
+
+__Finally, $f_3 = x^4 + 1$ is convex owing to the property of convex functions as follows:__
+
+__If f(x) and g(x) are convex, then f(g(x))s convex under non-decreasing conditions.  The f(x) and g(x) in this question are $f(x) = x^2$ and $g(x) = x^2 +1$.  __
+
+__Taken all together, the original function is convex.__  
+
+
 
 __Ex. 2__ -- Show that the mean of the exponential distribution
 
 $$p(x) = \begin{cases} 
       \ \lambda e^{-\lambda x}, & 0 < \lambda \leq x \\
       0, & x <  0 
-   \end{cases}
-$$
+   \end{cases}$$
 
-is $\mu = \frac{1}{\lambda}$ and its variance is $\sigma = \frac{1}{\lambda^2}$.  
+is $\mu = \frac{1}{\lambda}$ and its variance is $\sigma ^2 = \frac{1}{\lambda^2}$.  
 
+
+__The mean $mu$ of a continuous probability distribution p(x) is defined as:__
+
+$$ \mu = E(x) = \int x p(x) dx$$
+
+__For the exponential distribution, this can be integrated by parts, e.g., $\int u dv = uv - \int v du$__
+
+
+$$ \int ^\infty _0 x  \lambda e^{-\lambda x} = -x e^{-\lambda x} - \int e^{-\lambda x} = -e^{-\lambda x}(\frac{1}{\lambda}+x)|^\infty _0$$
+
+
+__Using the limit of exp(-x) = 0 as x approaches infinity:__  
+
+
+$$-\frac{e^{-\lambda x}}{\lambda}(1+x)|^\infty _0 =  0 + (\frac{1}{\lambda}+0) =  \frac{1}{\lambda} $$
+
+__The variance $\sigma ^2| of a continuous probability distribution p(x) is defined as:__  
+
+
+$$ Var(x) = E[x^2] = (\int x^2 f(x) dx) - \mu^2$$ 
+
+__where $\mu$ is the mean. Substituting in for the exponential distribution:__  
+
+
+$$ \int ^\infty _0 x^2 \lambda e^{-\lambda x} dx$$
+
+__Using integration by parts again:__  
+
+
+
+$$ \lambda \int ^\infty _0 x^2 e^{-\lambda x} dx  = -x^2 e^{-\lambda x} + 2\int x e^{-\lambda x} dx = -x^2 e^{-\lambda x} - \frac{2}{\lambda}e^{-\lambda x}(\frac{1}{\lambda}+x)|^\infty _0$$
+
+$$-x^2 e^{-\lambda x}+ 2\frac{e^{-\lambda x}}{\lambda}(1+x)|^\infty _0 = 0 + 0 + 0 +\frac{2}{\lambda} *\frac{1} {\lambda} = \frac{2}{\lambda^2} $$
+
+$$ \frac{2}{\lambda^2} - [\frac{1}{\lambda}]^2 = \frac{1}{\lambda ^2}$$
+
+__The variance is equal to $\frac{1}{\lambda}$.__  
 
 
 __Ex. 3__ -- It is estimated that there is a typo in every 250 data entries in a database, assuming the number of typos can obey the Poisson distribution. For a given 1000 data entries, what is the probability that there are exactly 4 typos? What is the probability of no typo at all? Use _R_ to draw 1000 samples with $\lambda = 4$ and show their histogram.  
+
+
+
+__The Poisson distribution is $p(x) \frac{\lambda^x e^{-x}}{x!}$, with x is the number of events we're interested in observing, and $\lambda = np$, where n is the total number of occurences and p is the probability of an event. In this example, p = $\frac{1}{250}$, n = 1000 samples, and x = 4 typos.  The exact solution is:__  
+
+
+
+```{r, poisson-calc1}
+
+n = 1000
+p = 1/250
+x = 4
+
+ex_3a <- ((n * p)^x * exp(-n*p))/factorial(x)
+
+print(ex_3a)
+```
+
+
+__Approximately 0.195 of exactly 4 typos.__ 
+
+
+__The probability of no typos is:__  
+
+
+
+```{r, poisson-calc2}
+
+n = 1000
+p = 1/250
+x = 0
+
+ex_3b <- ((n * p)^x * exp(-n*p))/factorial(x)
+
+print(ex_3b)
+```
+
+__Approximately 0.018.__
+
+__Using a Poisson random variable, below is a histogram of 1000 samples of $\lambda = 1000 * \frac{1}{250} = 4$__  
+
+
+```{r, poisson-sim}
+
+set.seed(123)
+
+hist(rpois(n = 1000, lambda = 1000/250))
+
+
+```
+
+__The most frequent outcome is approximately four typos.__  
+
+
+
+
+
+
+
+
+
+
+
