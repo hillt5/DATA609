@@ -1,0 +1,151 @@
+---
+title: "HW4 - DATA 609"
+author: "Thomas Hill"
+date: "October 17, 2021"
+output:
+  html_document: default
+  pdf_document: default
+header-includes: -\usepackage{caption}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, library}
+
+library(knitr)
+
+
+```
+
+
+__Ex. 1__ -- For Example 19 on Page 79 in the book, carry out the regression using R.
+
+
+
+```{r, table-1}
+x <- c(-0.98,  1.00,  2.02,  3.03 , 4.00)
+y <- c(2.44,  -1.51,  -0.47,  2.54,  7.52)
+ex_1 <- rbind(x,y)
+
+knitr::kable(ex_1, formmat = 'latex')
+```
+
+To solve this problem, the can use the general formula from equation 4.57 in the textbook.
+
+
+```{r, ex-1}
+
+
+ex1_matrix <- matrix(c(5, sum(x), sum(x^2), sum(x), sum(x^2), sum(x^3), sum(x^2), sum(x^3), sum(x^4)), nrow = 3)
+
+ex1_y_matrix <- matrix(c(sum(y), sum(y*x), sum(y * x^2)))
+
+
+
+
+ex1_sol <- solve(ex1_matrix) %*% ex1_y_matrix
+
+print(ex1_sol)
+```
+Using this method, a0 = -0.506, a1 = -2.026, and a2 = 1.007, which is approximately equal to the answer in the textbook.
+
+
+$$\hat{y} = -0.506 - 2.026x + 1.007x^2$$
+
+
+
+__Ex. 2__ -- Implement the nonlinear curve-fitting of Example 20 on Page 83 for the following data:
+
+```{r, table-2}
+x <- c(0.10, 0.50, 1.00, 1.50, 2.00, 2.50)
+y <- c(0.10, 0.28, 0.40, 0.40, 0.37, 0.32)
+ex_2 <- rbind(x,y)
+
+knitr::kable(ex_2, formmat = 'latex')
+```
+
+The curve-fitting model of example 20 attempts to fit a regression of the format
+
+$$ \hat{y} = \frac{x}{a + bx^2}$$
+
+
+by minimizing the sum of residual squares. This is done by the Gauss-Newton algorithm, which in the logistic case solves for a 2 x 1 vector of values for a and b.  Specifically, this is accomplished in Example 20 by
+obtaining the Jacobian matrix of the data and recursively caculating a1 given the following:
+
+$$a_{t+1} = a_t + (J^T J)^{-1} J^T R_{a_t}$$
+
+
+Where J is the Jacobian, R is the residual matrix of the current guess, and $a_0$ are estimates of the parameters.
+
+The Jacobian is calculated by finding partial derivatives of R with respect to a and b, which equal
+
+$$\frac{\partial R}{\partial a} = \frac{x_i}{(a + bx_i^2)^2}, \frac{\partial R}{\partial b} = \frac{x_i^3}{(a + bx_i^2)^2}$$
+
+and then forming a 2 x 6 matrix with $\frac{\partial R}{\partial a}$ in one column and $\frac{\partial R}{\partial b}$ in the next.
+
+
+```{r, Jacobian}
+
+a_0 <- 1
+b_0 <- 1
+
+drda <- x/(a_0 + b_0*x^2)^2
+  
+drdb <- (x^3)/(a_0 + b_0*x^2)^2
+
+
+ex2_answer <- matrix(c(a_0,b_0), nrow = 2)
+
+ex2_j <- cbind(drda,drdb)
+
+
+```
+
+
+
+
+```{r, ex2-residuals}
+
+ex2_resid <- y - x/(a_0 + b_0 * x^2)
+
+print(ex2_resid)
+```
+
+
+```{r, ex2}
+
+ex2_solve <- function()
+
+
+```
+
+
+
+__Ex. 3__ --  For the data with binary _y_ values, try to fit the following data
+
+```{r, table-3}
+x <- c( 0.1,  0.5,  1.0,  1.5,  2.0,  2.5)
+y <- c( 0,    0,    1,   1,    1,    0)
+ex_3 <- rbind(x,y)
+
+knitr::kable(ex_3, formmat = 'latex')
+```
+
+
+to the nonlinear function
+
+$$ y = \frac{1}{1 + e^{ \alpha + \beta x}}$$,
+
+
+
+starting with a = 1 and b = 1.
+
+
+
+
+
+
+
