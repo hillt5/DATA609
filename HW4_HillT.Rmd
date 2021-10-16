@@ -3,8 +3,8 @@ title: "HW4 - DATA 609"
 author: "Thomas Hill"
 date: "October 17, 2021"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 header-includes: -\usepackage{caption}
 ---
 
@@ -25,7 +25,7 @@ __Ex. 1__ -- For Example 19 on Page 79 in the book, carry out the regression usi
 
 
 
-```{r, table-1}
+```{r, table-1, echo = FALSE}
 x <- c(-0.98,  1.00,  2.02,  3.03 , 4.00)
 y <- c(2.44,  -1.51,  -0.47,  2.54,  7.52)
 ex_1 <- rbind(x,y)
@@ -59,7 +59,7 @@ $$\hat{y} = -0.506 - 2.026x + 1.007x^2$$
 
 __Ex. 2__ -- Implement the nonlinear curve-fitting of Example 20 on Page 83 for the following data:
 
-```{r, table-2}
+```{r, table-2, echo = FALSE}
 x <- c(0.10, 0.50, 1.00, 1.50, 2.00, 2.50)
 y <- c(0.10, 0.28, 0.40, 0.40, 0.37, 0.32)
 ex_2 <- rbind(x,y)
@@ -73,7 +73,7 @@ $$ \hat{y} = \frac{x}{a + bx^2}$$
 
 
 by minimizing the sum of residual squares. This is done by the Gauss-Newton algorithm, which in the logistic case solves for a 2 x 1 vector of values for a and b.  Specifically, this is accomplished in Example 20 by
-obtaining the Jacobian matrix of the data and recursively caculating a1 given the following:
+obtaining the Jacobian matrix of the data and recursively calculating a1 given the following:
 
 $$a_{t+1} = a_t + (J^T J)^{-1} J^T R_{a_t}$$
 
@@ -124,11 +124,9 @@ ex2_solve <- function(list_input = initial_input) {
   params <- list_input[[1]]
   R <- list_input[[2]]
   J <- list_input[[3]]
-  a_i <- params[1]
-  b_i <- params[2]
-  ex2_solve.resid = R
+  ex2_solve.resid <- R
   
-  newton <- params - solve(t(ex2_j) %*% ex2_j) %*% t(ex2_j) %*% ex2_solve.resid #gauss-newton algorithm
+  newton <- params - solve(t(J) %*% J) %*% t(J) %*% ex2_solve.resid #gauss-newton algorithm
   
   ex2_solve.result <- newton #t + 1 iteration of parameter estimates
   ex2_solve.resid <- y - x/(newton[1] + newton[2] * x^2) #recalculate residual matrix
@@ -161,7 +159,7 @@ ex2_solve(ex2_solve())
 
 ```
 
-During the second iteration, slightly different answers are given. Howver, lets check whether RSS is still decreasing during this process:
+During the second iteration, the answers remain the same. Lets also check whether RSS is still decreasing during this process:
 
 
 ```{r, rss}
@@ -179,7 +177,7 @@ It appears that RSS is still decreasing during my implementation of the Gauss-Ne
 
 __Ex. 3__ --  For the data with binary _y_ values, try to fit the following data
 
-```{r, table-3}
+```{r, table-3, echo = FALSE}
 x <- c( 0.1,  0.5,  1.0,  1.5,  2.0,  2.5)
 y <- c(0, 0, 1, 1, 1, 0)
 ex_3 <- rbind(x,y)
@@ -270,7 +268,7 @@ ex3_solve(ex3_solve(ex3_solve()))
 ex3_solve(ex3_solve(ex3_solve(ex3_solve())))
 ```
 
-After looking at a few iterations, it appears the parameters are not approaching a single value. Lets also look at the reisudals:
+After looking at a few iterations, it appears the parameters are not approaching a single value. Lets also look at the residuals:
 
 ```{r, ex3-rss}
 print(sum(ex3_resid^2))

@@ -1,0 +1,653 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={HW4 - DATA 609},
+  pdfauthor={Thomas Hill},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+-\usepackage{caption}
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{HW4 - DATA 609}
+\author{Thomas Hill}
+\date{October 17, 2021}
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(knitr)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Ex. 1} -- For Example 19 on Page 79 in the book, carry out the
+regression using R.
+
+\begin{longtable}[]{@{}lrrrrr@{}}
+\toprule
+\endhead
+x & -0.98 & 1.00 & 2.02 & 3.03 & 4.00\tabularnewline
+y & 2.44 & -1.51 & -0.47 & 2.54 & 7.52\tabularnewline
+\bottomrule
+\end{longtable}
+
+To solve this problem, the can use the general formula from equation
+4.57 in the textbook.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ex1\_matrix \textless{}{-}}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{, }\KeywordTok{sum}\NormalTok{(x), }\KeywordTok{sum}\NormalTok{(x}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{), }\KeywordTok{sum}\NormalTok{(x), }\KeywordTok{sum}\NormalTok{(x}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{), }\KeywordTok{sum}\NormalTok{(x}\OperatorTok{\^{}}\DecValTok{3}\NormalTok{), }\KeywordTok{sum}\NormalTok{(x}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{), }\KeywordTok{sum}\NormalTok{(x}\OperatorTok{\^{}}\DecValTok{3}\NormalTok{), }\KeywordTok{sum}\NormalTok{(x}\OperatorTok{\^{}}\DecValTok{4}\NormalTok{)), }\DataTypeTok{nrow =} \DecValTok{3}\NormalTok{)}
+
+\NormalTok{ex1\_y\_matrix \textless{}{-}}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\KeywordTok{sum}\NormalTok{(y), }\KeywordTok{sum}\NormalTok{(y}\OperatorTok{*}\NormalTok{x), }\KeywordTok{sum}\NormalTok{(y }\OperatorTok{*}\StringTok{ }\NormalTok{x}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{)))}
+
+
+
+
+\NormalTok{ex1\_sol \textless{}{-}}\StringTok{ }\KeywordTok{solve}\NormalTok{(ex1\_matrix) }\OperatorTok{\%*\%}\StringTok{ }\NormalTok{ex1\_y\_matrix}
+
+\KeywordTok{print}\NormalTok{(ex1\_sol)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##            [,1]
+## [1,] -0.5055154
+## [2,] -2.0261594
+## [3,]  1.0065065
+\end{verbatim}
+
+Using this method, a0 = -0.506, a1 = -2.026, and a2 = 1.007, which is
+approximately equal to the answer in the textbook.
+
+\[\hat{y} = -0.506 - 2.026x + 1.007x^2\]
+
+\textbf{Ex. 2} -- Implement the nonlinear curve-fitting of Example 20 on
+Page 83 for the following data:
+
+\begin{longtable}[]{@{}lrrrrrr@{}}
+\toprule
+\endhead
+x & 0.1 & 0.50 & 1.0 & 1.5 & 2.00 & 2.50\tabularnewline
+y & 0.1 & 0.28 & 0.4 & 0.4 & 0.37 & 0.32\tabularnewline
+\bottomrule
+\end{longtable}
+
+The curve-fitting model of example 20 attempts to fit a regression of
+the format
+
+\[ \hat{y} = \frac{x}{a + bx^2}\]
+
+by minimizing the sum of residual squares. This is done by the
+Gauss-Newton algorithm, which in the logistic case solves for a 2 x 1
+vector of values for a and b. Specifically, this is accomplished in
+Example 20 by obtaining the Jacobian matrix of the data and recursively
+calculating a1 given the following:
+
+\[a_{t+1} = a_t + (J^T J)^{-1} J^T R_{a_t}\]
+
+Where J is the Jacobian, R is the residual matrix of the current guess,
+and \(a_0\) are estimates of the parameters.
+
+The Jacobian is calculated by finding partial derivatives of R with
+respect to a and b, which equal
+
+\[\frac{\partial R}{\partial a} = \frac{x_i}{(a + bx_i^2)^2}, \frac{\partial R}{\partial b} = \frac{x_i^3}{(a + bx_i^2)^2}\]
+
+and then forming a 2 x 6 matrix with \(\frac{\partial R}{\partial a}\)
+in one column and \(\frac{\partial R}{\partial b}\) in the next.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{a\_}\DecValTok{0}\NormalTok{ \textless{}{-}}\StringTok{ }\DecValTok{1}
+\NormalTok{b\_}\DecValTok{0}\NormalTok{ \textless{}{-}}\StringTok{ }\DecValTok{1}
+
+\NormalTok{initial\_params \textless{}{-}}\StringTok{ }\KeywordTok{matrix}\NormalTok{(a\_}\DecValTok{0}\NormalTok{,b\_}\DecValTok{0}\NormalTok{, }\DataTypeTok{nrow =} \DecValTok{2}\NormalTok{)}
+
+\NormalTok{drda \textless{}{-}}\StringTok{ }\NormalTok{x}\OperatorTok{/}\NormalTok{(initial\_params[}\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{initial\_params[}\DecValTok{2}\NormalTok{]}\OperatorTok{*}\NormalTok{x}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{)}\OperatorTok{\^{}}\DecValTok{2}
+  
+\NormalTok{drdb \textless{}{-}}\StringTok{ }\NormalTok{(x}\OperatorTok{\^{}}\DecValTok{3}\NormalTok{)}\OperatorTok{/}\NormalTok{(initial\_params[}\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{initial\_params[}\DecValTok{2}\NormalTok{]}\OperatorTok{*}\NormalTok{x}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{)}\OperatorTok{\^{}}\DecValTok{2}
+
+
+\NormalTok{ex2\_j \textless{}{-}}\StringTok{ }\KeywordTok{cbind}\NormalTok{(drda,drdb)}
+
+\KeywordTok{print}\NormalTok{(ex2\_j)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##            drda        drdb
+## [1,] 0.09802960 0.000980296
+## [2,] 0.32000000 0.080000000
+## [3,] 0.25000000 0.250000000
+## [4,] 0.14201183 0.319526627
+## [5,] 0.08000000 0.320000000
+## [6,] 0.04756243 0.297265161
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ex2\_resid \textless{}{-}}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(y }\OperatorTok{{-}}\StringTok{ }\NormalTok{x}\OperatorTok{/}\NormalTok{(a\_}\DecValTok{0} \OperatorTok{+}\StringTok{ }\NormalTok{b\_}\DecValTok{0} \OperatorTok{*}\StringTok{ }\NormalTok{x}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{)))}
+
+\KeywordTok{print}\NormalTok{(ex2\_resid)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              [,1]
+## [1,]  0.000990099
+## [2,] -0.120000000
+## [3,] -0.100000000
+## [4,] -0.061538462
+## [5,] -0.030000000
+## [6,] -0.024827586
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{initial\_input \textless{}{-}}\StringTok{ }\KeywordTok{list}\NormalTok{(initial\_params, ex2\_resid, ex2\_j)}
+
+\NormalTok{ex2\_solve \textless{}{-}}\StringTok{ }\ControlFlowTok{function}\NormalTok{(}\DataTypeTok{list\_input =}\NormalTok{ initial\_input) \{}
+\NormalTok{  params \textless{}{-}}\StringTok{ }\NormalTok{list\_input[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{  R \textless{}{-}}\StringTok{ }\NormalTok{list\_input[[}\DecValTok{2}\NormalTok{]]}
+\NormalTok{  J \textless{}{-}}\StringTok{ }\NormalTok{list\_input[[}\DecValTok{3}\NormalTok{]]}
+\NormalTok{  ex2\_solve.resid \textless{}{-}}\StringTok{ }\NormalTok{R}
+  
+\NormalTok{  newton \textless{}{-}}\StringTok{ }\NormalTok{params }\OperatorTok{{-}}\StringTok{ }\KeywordTok{solve}\NormalTok{(}\KeywordTok{t}\NormalTok{(J) }\OperatorTok{\%*\%}\StringTok{ }\NormalTok{J) }\OperatorTok{\%*\%}\StringTok{ }\KeywordTok{t}\NormalTok{(J) }\OperatorTok{\%*\%}\StringTok{ }\NormalTok{ex2\_solve.resid }\CommentTok{\#gauss{-}newton algorithm}
+  
+\NormalTok{  ex2\_solve.result \textless{}{-}}\StringTok{ }\NormalTok{newton }\CommentTok{\#t + 1 iteration of parameter estimates}
+\NormalTok{  ex2\_solve.resid \textless{}{-}}\StringTok{ }\NormalTok{y }\OperatorTok{{-}}\StringTok{ }\NormalTok{x}\OperatorTok{/}\NormalTok{(newton[}\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{newton[}\DecValTok{2}\NormalTok{] }\OperatorTok{*}\StringTok{ }\NormalTok{x}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{) }\CommentTok{\#recalculate residual matrix}
+  
+\NormalTok{  ex2\_drda \textless{}{-}}\StringTok{ }\NormalTok{x}\OperatorTok{/}\NormalTok{(ex2\_solve.result[}\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{ex2\_solve.result[}\DecValTok{2}\NormalTok{]}\OperatorTok{*}\NormalTok{x}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{)}\OperatorTok{\^{}}\DecValTok{2}
+
+\NormalTok{  ex2\_drdb \textless{}{-}}\StringTok{ }\NormalTok{(x}\OperatorTok{\^{}}\DecValTok{3}\NormalTok{)}\OperatorTok{/}\NormalTok{(ex2\_solve.result[}\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{ex2\_solve.result[}\DecValTok{2}\NormalTok{]}\OperatorTok{*}\NormalTok{x}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{)}\OperatorTok{\^{}}\DecValTok{2}
+
+\NormalTok{  ex2\_solve.jacobian \textless{}{-}}\StringTok{ }\KeywordTok{cbind}\NormalTok{(ex2\_drda,ex2\_drdb) }\CommentTok{\#recalculate jacobian}
+
+    \KeywordTok{return}\NormalTok{(}\KeywordTok{list}\NormalTok{(ex2\_solve.result,ex2\_solve.resid, ex2\_solve.jacobian))}
+\NormalTok{  \}}
+
+\NormalTok{first\_iteration \textless{}{-}}\StringTok{ }\KeywordTok{ex2\_solve}\NormalTok{()}
+\KeywordTok{print}\NormalTok{(first\_iteration)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [[1]]
+##          [,1]
+## drda 1.344879
+## drdb 1.031709
+## 
+## [[2]]
+## [1]  0.0262099473 -0.0319528492 -0.0207713033 -0.0091403110  0.0044838426
+## [6] -0.0007982838
+## 
+## [[3]]
+##        ex2_drda     ex2_drdb
+## [1,] 0.05444972 0.0005444972
+## [2,] 0.19462916 0.0486572901
+## [3,] 0.17704849 0.1770484897
+## [4,] 0.11159720 0.2510936911
+## [5,] 0.06680103 0.2672041227
+## [6,] 0.04116462 0.2572788472
+\end{verbatim}
+
+The initial iteration gives approximately the same parameters as the
+solution in the book. Lets see how further iterations do.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ex2\_solve}\NormalTok{(}\KeywordTok{ex2\_solve}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [[1]]
+##          [,1]
+## drda 1.474156
+## drdb 1.005853
+## 
+## [[2]]
+## [1]  0.032624310 -0.009750988 -0.003224242 -0.001356452  0.006202872
+## [6] -0.002134254
+## 
+## [[3]]
+##        ex2_drda     ex2_drdb
+## [1,] 0.04539484 0.0004539484
+## [2,] 0.16791127 0.0419778175
+## [3,] 0.16258979 0.1625897890
+## [4,] 0.10739133 0.2416305022
+## [5,] 0.06617418 0.2646967014
+## [6,] 0.04150819 0.2594261935
+\end{verbatim}
+
+During the second iteration, the answers remain the same. Lets also
+check whether RSS is still decreasing during this process:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\KeywordTok{sum}\NormalTok{(ex2\_resid}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.02970437
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\KeywordTok{sum}\NormalTok{(first\_iteration[[}\DecValTok{2}\NormalTok{]]}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.00224368
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\KeywordTok{sum}\NormalTok{(}\KeywordTok{ex2\_solve}\NormalTok{(first\_iteration)[[}\DecValTok{2}\NormalTok{]]}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.001214694
+\end{verbatim}
+
+It appears that RSS is still decreasing during my implementation of the
+Gauss-Newton method.
+
+\textbf{Ex. 3} -- For the data with binary \emph{y} values, try to fit
+the following data
+
+\begin{longtable}[]{@{}lrrrrrr@{}}
+\toprule
+\endhead
+x & 0.1 & 0.5 & 1 & 1.5 & 2 & 2.5\tabularnewline
+y & 0.0 & 0.0 & 1 & 1.0 & 1 & 0.0\tabularnewline
+\bottomrule
+\end{longtable}
+
+to the nonlinear function
+
+\[ y = \frac{1}{1 + e^{ \alpha + \beta x}}\]
+
+starting with a = 1 and b = 1.
+
+Using the Gauss-Newton method from Exercise 2, we can estimate the
+parameters. In this case, the partial derivatives that make up the
+Jacobian are:
+
+\[\frac{\partial R}{\partial a} = \frac{e^{a+bx}}{(1 + e^{a + bx})^2}, \frac{\partial R}{\partial b} = \frac{xe^{a+bx}}{(1 + e^{a + bx})^2}\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{a\_}\DecValTok{0}\NormalTok{ \textless{}{-}}\StringTok{ }\DecValTok{1}
+\NormalTok{b\_}\DecValTok{0}\NormalTok{ \textless{}{-}}\StringTok{ }\DecValTok{1}
+
+\NormalTok{initial\_params \textless{}{-}}\StringTok{ }\KeywordTok{matrix}\NormalTok{(a\_}\DecValTok{0}\NormalTok{,b\_}\DecValTok{0}\NormalTok{, }\DataTypeTok{nrow =} \DecValTok{2}\NormalTok{)}
+
+\NormalTok{drda \textless{}{-}}\StringTok{ }\KeywordTok{exp}\NormalTok{(initial\_params[}\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{initial\_params[}\DecValTok{2}\NormalTok{]}\OperatorTok{*}\NormalTok{x)}\OperatorTok{/}\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\KeywordTok{exp}\NormalTok{(initial\_params[}\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{initial\_params[}\DecValTok{2}\NormalTok{]}\OperatorTok{*}\NormalTok{x))}\OperatorTok{\^{}}\DecValTok{2}
+  
+\NormalTok{drdb \textless{}{-}}\StringTok{ }\NormalTok{x }\OperatorTok{*}\KeywordTok{exp}\NormalTok{(initial\_params[}\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{initial\_params[}\DecValTok{2}\NormalTok{]}\OperatorTok{*}\NormalTok{x)}\OperatorTok{/}\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\KeywordTok{exp}\NormalTok{(initial\_params[}\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{initial\_params[}\DecValTok{2}\NormalTok{]}\OperatorTok{*}\NormalTok{x))}\OperatorTok{\^{}}\DecValTok{2}
+
+
+\NormalTok{ex3\_j \textless{}{-}}\StringTok{ }\KeywordTok{cbind}\NormalTok{(drda,drdb) }\CommentTok{\#initial jacobian}
+
+\KeywordTok{print}\NormalTok{(ex3\_j)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##            drda       drdb
+## [1,] 0.18736988 0.01873699
+## [2,] 0.14914645 0.07457323
+## [3,] 0.10499359 0.10499359
+## [4,] 0.07010372 0.10515557
+## [5,] 0.04517666 0.09035332
+## [6,] 0.02845302 0.07113256
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ex3\_resid \textless{}{-}}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(y }\OperatorTok{{-}}\StringTok{ }\NormalTok{x}\OperatorTok{/}\NormalTok{(}\DecValTok{1}\OperatorTok{+}\KeywordTok{exp}\NormalTok{(a\_}\DecValTok{0} \OperatorTok{+}\StringTok{ }\NormalTok{b\_}\DecValTok{0} \OperatorTok{*}\StringTok{ }\NormalTok{x)))) }\CommentTok{\#initial residuals}
+
+\KeywordTok{print}\NormalTok{(ex3\_resid)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##             [,1]
+## [1,] -0.02497399
+## [2,] -0.09121276
+## [3,]  0.88079708
+## [4,]  0.88621273
+## [5,]  0.90514825
+## [6,] -0.07328058
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{initial\_input \textless{}{-}}\StringTok{ }\KeywordTok{list}\NormalTok{(initial\_params, ex3\_resid, ex3\_j)}
+
+\NormalTok{ex3\_solve \textless{}{-}}\StringTok{ }\ControlFlowTok{function}\NormalTok{(}\DataTypeTok{list\_input =}\NormalTok{ initial\_input) \{}
+\NormalTok{  params \textless{}{-}}\StringTok{ }\NormalTok{list\_input[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{  R \textless{}{-}}\StringTok{ }\NormalTok{list\_input[[}\DecValTok{2}\NormalTok{]]}
+\NormalTok{  J \textless{}{-}}\StringTok{ }\NormalTok{list\_input[[}\DecValTok{3}\NormalTok{]]}
+\NormalTok{  ex3\_solve.resid \textless{}{-}}\StringTok{ }\NormalTok{R}
+  
+\NormalTok{  newton \textless{}{-}}\StringTok{ }\NormalTok{params }\OperatorTok{{-}}\StringTok{ }\KeywordTok{solve}\NormalTok{(}\KeywordTok{t}\NormalTok{(J) }\OperatorTok{\%*\%}\StringTok{ }\NormalTok{J) }\OperatorTok{\%*\%}\StringTok{ }\KeywordTok{t}\NormalTok{(J) }\OperatorTok{\%*\%}\StringTok{ }\NormalTok{R }\CommentTok{\#gauss{-}newton algorithm}
+  
+\NormalTok{  ex3\_solve.result \textless{}{-}}\StringTok{ }\NormalTok{newton }\CommentTok{\#t + 1 iteration of parameter estimates}
+\NormalTok{  ex3\_solve.resid \textless{}{-}}\StringTok{ }\NormalTok{y }\OperatorTok{{-}}\StringTok{ }\DecValTok{1}\OperatorTok{/}\NormalTok{(}\DecValTok{1}\OperatorTok{+}\KeywordTok{exp}\NormalTok{(ex3\_solve.result[}\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{ex3\_solve.result[}\DecValTok{2}\NormalTok{] }\OperatorTok{*}\StringTok{ }\NormalTok{x)) }\CommentTok{\#recalculate residual matrix}
+  
+\NormalTok{  drda \textless{}{-}}\StringTok{ }\KeywordTok{exp}\NormalTok{(ex3\_solve.result[}\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{ex3\_solve.result[}\DecValTok{2}\NormalTok{]}\OperatorTok{*}\NormalTok{x)}\OperatorTok{/}\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\KeywordTok{exp}\NormalTok{(ex3\_solve.result[}\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{ex3\_solve.result[}\DecValTok{2}\NormalTok{]}\OperatorTok{*}\NormalTok{x))}\OperatorTok{\^{}}\DecValTok{2}
+
+\NormalTok{  drdb \textless{}{-}}\StringTok{ }\NormalTok{x }\OperatorTok{*}\KeywordTok{exp}\NormalTok{(ex3\_solve.result[}\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{ex3\_solve.result[}\DecValTok{2}\NormalTok{]}\OperatorTok{*}\NormalTok{x)}\OperatorTok{/}\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\KeywordTok{exp}\NormalTok{(ex3\_solve.result[}\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{ex3\_solve.result[}\DecValTok{2}\NormalTok{]}\OperatorTok{*}\NormalTok{x))}\OperatorTok{\^{}}\DecValTok{2}
+
+\NormalTok{  ex3\_solve.jacobian \textless{}{-}}\StringTok{ }\KeywordTok{cbind}\NormalTok{(drda,drdb) }\CommentTok{\#recalculate jacobian}
+
+    \KeywordTok{return}\NormalTok{(}\KeywordTok{list}\NormalTok{(ex3\_solve.result,ex3\_solve.resid, ex3\_solve.jacobian))}
+\NormalTok{  \}}
+
+\NormalTok{first\_iteration \textless{}{-}}\StringTok{ }\KeywordTok{ex3\_solve}\NormalTok{()}
+\KeywordTok{print}\NormalTok{(first\_iteration)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [[1]]
+##           [,1]
+## drda  2.717535
+## drdb -6.816731
+## 
+## [[2]]
+## [1] -1.154887e-01 -6.661516e-01  1.631540e-02  5.486170e-04  1.816625e-05
+## [6] -9.999994e-01
+## 
+## [[3]]
+##              drda         drdb
+## [1,] 1.021511e-01 1.021511e-02
+## [2,] 2.223937e-01 1.111968e-01
+## [3,] 1.604921e-02 1.604921e-02
+## [4,] 5.483161e-04 8.224741e-04
+## [5,] 1.816592e-05 3.633185e-05
+## [6,] 6.012269e-07 1.503067e-06
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ex3\_solve}\NormalTok{(}\KeywordTok{ex3\_solve}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [[1]]
+##           [,1]
+## drda  3.629436
+## drdb -2.789558
+## 
+## [[2]]
+## [1] -0.03387943 -0.09668113  0.69843960  0.36472817  0.12458829 -0.96592291
+## 
+## [[3]]
+##            drda        drdb
+## [1,] 0.03273161 0.003273161
+## [2,] 0.08733389 0.043666944
+## [3,] 0.21062173 0.210621726
+## [4,] 0.23170153 0.347552297
+## [5,] 0.10906605 0.218132095
+## [6,] 0.03291584 0.082289605
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ex3\_solve}\NormalTok{(}\KeywordTok{ex3\_solve}\NormalTok{(}\KeywordTok{ex3\_solve}\NormalTok{()))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [[1]]
+##            [,1]
+## drda -1.1434447
+## drdb -0.4228437
+## 
+## [[2]]
+## [1] -0.7659763 -0.7949241  0.1727462  0.1445861  0.1203487 -0.9002992
+## 
+## [[3]]
+##            drda       drdb
+## [1,] 0.17925659 0.01792566
+## [2,] 0.16301977 0.08150988
+## [3,] 0.14290492 0.14290492
+## [4,] 0.12368096 0.18552144
+## [5,] 0.10586490 0.21172980
+## [6,] 0.08976052 0.22440129
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ex3\_solve}\NormalTok{(}\KeywordTok{ex3\_solve}\NormalTok{(}\KeywordTok{ex3\_solve}\NormalTok{(}\KeywordTok{ex3\_solve}\NormalTok{())))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [[1]]
+##           [,1]
+## drda  2.261722
+## drdb -1.347829
+## 
+## [[2]]
+## [1] -0.1065060 -0.1696926  0.7137961  0.5597083  0.3931868 -0.7517281
+## 
+## [[3]]
+##            drda        drdb
+## [1,] 0.09516244 0.009516244
+## [2,] 0.14089704 0.070448519
+## [3,] 0.20429123 0.204291230
+## [4,] 0.24643492 0.369652373
+## [5,] 0.23859095 0.477181898
+## [6,] 0.18663294 0.466582349
+\end{verbatim}
+
+After looking at a few iterations, it appears the parameters are not
+approaching a single value. Lets also look at the residuals:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\KeywordTok{sum}\NormalTok{(ex3\_resid}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.394783
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\KeywordTok{sum}\NormalTok{(}\KeywordTok{ex3\_solve}\NormalTok{()[[}\DecValTok{2}\NormalTok{]]}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.457361
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\KeywordTok{sum}\NormalTok{(}\KeywordTok{ex3\_solve}\NormalTok{(}\KeywordTok{ex3\_solve}\NormalTok{())[[}\DecValTok{2}\NormalTok{]]}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.579869
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\KeywordTok{sum}\NormalTok{(}\KeywordTok{ex3\_solve}\NormalTok{(}\KeywordTok{ex3\_solve}\NormalTok{(}\KeywordTok{ex3\_solve}\NormalTok{()))[[}\DecValTok{2}\NormalTok{]]}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.094393
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\KeywordTok{sum}\NormalTok{(}\KeywordTok{ex3\_solve}\NormalTok{(}\KeywordTok{ex3\_solve}\NormalTok{(}\KeywordTok{ex3\_solve}\NormalTok{(}\KeywordTok{ex3\_solve}\NormalTok{())))[[}\DecValTok{2}\NormalTok{]]}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.582608
+\end{verbatim}
+
+It appears that the first iteration provides the lowest RSS. Next, lets
+look at what values are given using R's built-in regression function
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ex3\_data \textless{}{-}}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{cbind}\NormalTok{(x,y))}
+
+\NormalTok{ex3\_lm \textless{}{-}}\StringTok{ }\KeywordTok{glm}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ ex3\_data, }\DataTypeTok{formula =}\NormalTok{ y}\OperatorTok{\textasciitilde{}}\NormalTok{., }\DataTypeTok{family =} \KeywordTok{binomial}\NormalTok{(}\DataTypeTok{link =} \StringTok{\textquotesingle{}logit\textquotesingle{}}\NormalTok{))}
+
+\NormalTok{ex3\_lm}\OperatorTok{$}\NormalTok{coefficients}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## (Intercept)           x 
+##  -0.8982069   0.7099480
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fitted\_mat \textless{}{-}}\StringTok{ }\NormalTok{ex3\_lm}\OperatorTok{$}\NormalTok{fitted.values}
+
+\KeywordTok{sum}\NormalTok{((y}\OperatorTok{{-}}\NormalTok{fitted\_mat)}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.374187
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(fitted\_mat }\OperatorTok{\textasciitilde{}}\StringTok{ }\NormalTok{ex3\_data}\OperatorTok{$}\NormalTok{x)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW4_HillT_files/figure-latex/ex3-lm-1.pdf}
+
+Using the built-in function, an RSS of 1.374 is found using parameters a
+= -0.898 and b = 0.7099. This is lower than performance from the
+Gauss-Newton method.
+
+\end{document}
