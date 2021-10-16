@@ -92,15 +92,16 @@ and then forming a 2 x 6 matrix with $\frac{\partial R}{\partial a}$ in one colu
 a_0 <- 1
 b_0 <- 1
 
-drda <- x/(a_0 + b_0*x^2)^2
+initial_params <- matrix(a_0,b_0, nrow = 2)
+
+drda <- x/(initial_params[1] + initial_params[2]*x^2)^2
   
-drdb <- (x^3)/(a_0 + b_0*x^2)^2
+drdb <- (x^3)/(initial_params[1] + initial_params[2]*x^2)^2
 
-
-ex2_answer <- matrix(c(a_0,b_0), nrow = 2)
 
 ex2_j <- cbind(drda,drdb)
 
+print(ex2_j)
 
 ```
 
@@ -109,7 +110,7 @@ ex2_j <- cbind(drda,drdb)
 
 ```{r, ex2-residuals}
 
-ex2_resid <- y - x/(a_0 + b_0 * x^2)
+ex2_resid <- matrix(c(y - x/(a_0 + b_0 * x^2)))
 
 print(ex2_resid)
 ```
@@ -117,10 +118,62 @@ print(ex2_resid)
 
 ```{r, ex2}
 
-ex2_solve <- function()
+initial_input <- list(initial_params, ex2_resid, ex2_j)
+
+ex2_solve <- function(list_input = initial_input) {
+  params <- list_input[[1]]
+  R <- list_input[[2]]
+  J <- list_input[[3]]
+  a_i <- params[1]
+  b_i <- params[2]
+  ex2_solve.resid = R
+  
+  newton <- params - solve(t(ex2_j) %*% ex2_j) %*% t(ex2_j) %*% ex2_solve.resid #gauss-newton algorithm
+  
+  ex2_solve.result <- newton #t + 1 iteration of parameter estimates
+  ex2_solve.resid <- y - x/(newton[1] + newton[2] * x^2) #recalculate residual matrix
+  
+  ex2_drda <- x/(ex2_solve.result[1] + ex2_solve.result[2]*x^2)^2
+
+  ex2_drdb <- (x^3)/(ex2_solve.result[1] + ex2_solve.result[2]*x^2)^2
+
+  ex2_solve.jacobian <- cbind(ex2_drda,ex2_drdb) #recalculate jacobian
+
+    return(list(ex2_solve.result,ex2_solve.resid, ex2_solve.jacobian))
+  }
+
+first_iteration <- ex2_solve()
+print(first_iteration)
+
 
 
 ```
+
+The initial iteration gives approximately the same parameters as the solution in the book. Lets see how further iterations do.
+
+
+```{r, ex2-iterations}
+
+
+ex2_solve(ex2_solve())
+
+
+
+```
+
+During the second iteration, slightly different answers are given. Howver, lets check whether RSS is still decreasing during this process:
+
+
+```{r, rss}
+
+print(sum(ex2_resid^2))
+print(sum(first_iteration[[2]]^2))
+print(sum(ex2_solve(first_iteration)[[2]]^2))
+
+
+```
+
+It appears that RSS is still decreasing during my implementation of the Gauss-Newton method.
 
 
 
@@ -128,7 +181,7 @@ __Ex. 3__ --  For the data with binary _y_ values, try to fit the following data
 
 ```{r, table-3}
 x <- c( 0.1,  0.5,  1.0,  1.5,  2.0,  2.5)
-y <- c( 0,    0,    1,   1,    1,    0)
+y <- c(0, 0, 1, 1, 1, 0)
 ex_3 <- rbind(x,y)
 
 knitr::kable(ex_3, formmat = 'latex')
@@ -137,11 +190,125 @@ knitr::kable(ex_3, formmat = 'latex')
 
 to the nonlinear function
 
-$$ y = \frac{1}{1 + e^{ \alpha + \beta x}}$$,
+$$ y = \frac{1}{1 + e^{ \alpha + \beta x}}$$
 
 
 
 starting with a = 1 and b = 1.
+
+
+Using the Gauss-Newton method from Exercise 2, we can estimate the parameters. In this case, the partial derivatives that make up the Jacobian are:
+
+$$\frac{\partial R}{\partial a} = \frac{e^{a+bx}}{(1 + e^{a + bx})^2}, \frac{\partial R}{\partial b} = \frac{xe^{a+bx}}{(1 + e^{a + bx})^2}$$
+
+
+
+
+
+```{r, ex-3-initial-values}
+
+
+a_0 <- 1
+b_0 <- 1
+
+initial_params <- matrix(a_0,b_0, nrow = 2)
+
+drda <- exp(initial_params[1] + initial_params[2]*x)/(1 + exp(initial_params[1] + initial_params[2]*x))^2
+  
+drdb <- x *exp(initial_params[1] + initial_params[2]*x)/(1 + exp(initial_params[1] + initial_params[2]*x))^2
+
+
+ex3_j <- cbind(drda,drdb) #initial jacobian
+
+print(ex3_j)
+
+
+ex3_resid <- matrix(c(y - x/(1+exp(a_0 + b_0 * x)))) #initial residuals
+
+print(ex3_resid)
+
+
+
+```
+
+
+```{r, ex3}
+
+initial_input <- list(initial_params, ex3_resid, ex3_j)
+
+ex3_solve <- function(list_input = initial_input) {
+  params <- list_input[[1]]
+  R <- list_input[[2]]
+  J <- list_input[[3]]
+  ex3_solve.resid <- R
+  
+  newton <- params - solve(t(J) %*% J) %*% t(J) %*% R #gauss-newton algorithm
+  
+  ex3_solve.result <- newton #t + 1 iteration of parameter estimates
+  ex3_solve.resid <- y - 1/(1+exp(ex3_solve.result[1] + ex3_solve.result[2] * x)) #recalculate residual matrix
+  
+  drda <- exp(ex3_solve.result[1] + ex3_solve.result[2]*x)/(1 + exp(ex3_solve.result[1] + ex3_solve.result[2]*x))^2
+
+  drdb <- x *exp(ex3_solve.result[1] + ex3_solve.result[2]*x)/(1 + exp(ex3_solve.result[1] + ex3_solve.result[2]*x))^2
+
+  ex3_solve.jacobian <- cbind(drda,drdb) #recalculate jacobian
+
+    return(list(ex3_solve.result,ex3_solve.resid, ex3_solve.jacobian))
+  }
+
+first_iteration <- ex3_solve()
+print(first_iteration)
+
+
+
+```
+
+```{r, ex3-iterations}
+
+ex3_solve(ex3_solve())
+ex3_solve(ex3_solve(ex3_solve()))
+ex3_solve(ex3_solve(ex3_solve(ex3_solve())))
+```
+
+After looking at a few iterations, it appears the parameters are not approaching a single value. Lets also look at the reisudals:
+
+```{r, ex3-rss}
+print(sum(ex3_resid^2))
+print(sum(ex3_solve()[[2]]^2))
+print(sum(ex3_solve(ex3_solve())[[2]]^2))
+print(sum(ex3_solve(ex3_solve(ex3_solve()))[[2]]^2))
+print(sum(ex3_solve(ex3_solve(ex3_solve(ex3_solve())))[[2]]^2))
+
+
+```
+
+It appears that the first iteration provides the lowest RSS. Next, lets look at what values are given using R's built-in regression function
+
+
+
+```{r, ex3-lm}
+
+ex3_data <- data.frame(cbind(x,y))
+
+ex3_lm <- glm(data = ex3_data, formula = y~., family = binomial(link = 'logit'))
+
+ex3_lm$coefficients
+
+fitted_mat <- ex3_lm$fitted.values
+
+sum((y-fitted_mat)^2)
+
+
+
+plot(fitted_mat ~ ex3_data$x)
+
+```
+
+Using the built-in function, an RSS of 1.374 is found using parameters a = -0.898 and b = 0.7099. This is lower than performance from the Gauss-Newton method.
+
+
+
+
 
 
 
