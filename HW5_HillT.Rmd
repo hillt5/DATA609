@@ -1,0 +1,266 @@
+---
+title: "HW5 - DATA 609"
+author: "Thomas Hill"
+date: "October 31, 2021"
+output:
+  html_document: default
+  pdf_document: default
+header-includes: -\usepackage{caption}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, library}
+
+library(knitr)
+
+
+```
+
+
+__Ex. 1__ -- Carry out the logistic regression (Example 22 on Page 94) in R using the data
+
+
+
+```{r, table-1, echo = FALSE}
+x <- c(0.1,  0.5,  1.5,  2.0 , 2.5)
+y <- c(0,  1,  1,  1,  0)
+ex_1 <- rbind(x,y)
+
+knitr::kable(ex_1, formmat = 'latex')
+```
+
+
+The formula is:
+
+
+$$y(x) = \frac{1}{1 + e^{-(a+bx)}}$$
+
+```{r, ex-1-formula}
+
+p_i <- function(a_i = 1, b_i = 1, x_val) {
+  fxn <- 1/(1+exp(-1*(a_i + b_i*(x_val)))) #formula
+  return(fxn)
+}
+
+p_i(x_val = x)
+
+
+
+```
+
+Above are the values for $P_i$ according to binary logistic regression
+
+
+```{r, log-likelihood}
+
+log_lik <- function(x_i, y_i) {
+  p_xi <- p_i(x_val = x_i)
+  fxn <- y_i * log(p_xi) + (1-y_i) * log(1-p_xi)
+  return(fxn)
+}
+
+log_lik(x_i = x ,y_i = y) #L_i
+
+sum(log_lik(x_i = x ,y_i = y)) #log-likelihood objective, assuming a_i = b_i = 1
+
+```
+Additionally, here is $L_i$ and log-likelihood objective.
+
+
+Using the equation that logistic function $S(x)$ has derivative $S'(x) = S(x)(1 - S(x))$, the Jacobian can quickly be derived as:
+
+$$\begin {bmatrix}
+S(x)(1-S(x)) \\
+-x * S(x)(1-S(x))
+\end {bmatrix}$$
+
+
+Using code from the previous module to carry out the Newton method for estimating parameters.
+
+
+```{r, ex-1-initial-values}
+a_0 <- 1
+b_0 <- 1
+initial_params <- matrix(a_0,b_0, nrow = 2)
+
+
+drda <- p_i(x_val = x) * (1 - p_i(x_val = x))
+drdb <- -x * p_i(x_val = x) * (1 - p_i(x_val = x))
+
+ex1_j <- cbind(drda,drdb) #initial jacobian
+print(ex1_j)
+ex1_resid <- matrix(y - p_i(x_val = x)) #initial residuals
+print(ex1_resid)
+
+```
+
+Where $\frac{dR}{da} = -\frac{e^{-(a+bx)}}{(1+e^(-(a+bx)))^2}$ and $\frac{dR}{da} = -\frac{xe^{-(a+bx)}}{(1+e^(-(a+bx)))^2}$
+
+
+```{r, ex1-newton}
+initial_input <- list(initial_params, ex1_resid, ex1_j)
+ex1_solve <- function(list_input = initial_input) {
+  params <- list_input[[1]]
+  R <- list_input[[2]]
+  J <- list_input[[3]]
+
+  
+  newton <- params - solve(t(J) %*% J) %*% t(J) %*% R #gauss-newton algorithm
+  ex1_solve.result <- newton #t + 1 iteration of parameter estimates
+  p_xhat <- p_i(a_i = ex1_solve.result[1], b_i = ex1_solve.result[2], x_val = x) #calculate new S(x) with new parameters
+  
+  ex1_solve.resid <- y - p_xhat #calculate new residual
+  ex1_solve.drda <-  p_xhat * (1 - p_xhat) #update parameters in dRda
+  ex1_solve.drdb <- -x * p_xhat * (1 - p_xhat) #update parameters in dRdb 
+  ex1_solve.jacobian <- cbind(ex1_solve.drda,ex1_solve.drdb) #recalculate jacobian using above derivatives
+    return(list(ex1_solve.result,ex1_solve.resid, ex1_solve.jacobian)) #return list to allow for multiple iterations
+}
+
+
+first_iteration <- ex1_solve()
+print(first_iteration)
+
+
+
+
+```
+
+After trying several iterations of this, my build of the algorithm does not find adequate parameters for minimizing the sum of the residuals. Next, I'll try using the _glm_ function built into R.
+
+
+```{r, glm}
+
+ex1_glm <- glm(y ~ x, family = binomial(link = 'logit'))
+print(ex1_glm)
+```
+
+```{r, plot}
+
+log_lik_2 <- function(x_i, y_i) {
+  p_xi <- p_i(a_i = ex1_glm$coefficients[[1]], b_i = ex1_glm$coefficients[[2]], x_val = x_i)
+  fxn <- y_i * log(p_xi) + (1-y_i) * log(1-p_xi)
+  return(fxn)
+}
+
+log_lik_2(x, y)
+sum(log_lik_2(x_i = x, y_i = y))
+
+
+plot(p_i(a_i = ex1_glm$coefficients[[1]], b_i = ex1_glm$coefficients[[2]], x_val = x))
+
+
+```
+
+The parameters of $a = 0.35127, b = 0.04116$ appear to maximize the sum log-likelihood around approximately -3.364.
+
+
+__Ex. 2__ -- Using the motor car database (mtcars) of the built-in datasets in R, carry out the basic principal component analysis and explain your result.
+
+```{r, mtcars}
+
+
+head(mtcars)
+
+
+summary(prcomp(mtcars, scale = TRUE))
+
+
+```
+_mtcars_ is a dataframe that contains characteristics of 32 different cars and their impact on several indicators of vehicle performance. Using the _prcomp_ function returns two major lists: the first shows the contribution to to variance that each principal component adds. The 11 components are ranked by size of the standard deviation, with the first component being the largest. The easiest way to interpret the importance of the component is looking at the proportion of variance it explains. For instance, the first component explains 60% of variance between car features. Beyond this, we can also see that the first five components explain nearly 95% of variance. This is is a promising finding, as it means of the 11 original variables, there are some that could be omitted in a preliminary model to explain the relationship between car design and performance. Next, lets look what the components are made of.
+
+
+```{r, pca-rotation}
+
+prcomp(mtcars, scale = TRUE)
+
+
+```
+
+This next call to _prcomp_ offers a look at what each component is composed of. The first component relates many of the features together in correlations that would make sense in the real world. For example, miles per gallon (mpg) and weight (wt) are opposite signs, while number of cylinders (cyl) and engine size (disp) are same signs. Also notable to pick out are these variables have  the largest weights relative to other features. In the second variable, note that mpg and cyl contribute far less rotation, with coefficients of 0.016 and 0.043. Instead, PC2 offers relationships between the complexity of the engine - transmission (am), gears, and carburetors (carb) are the largest contributors, while quarter mile time (qsec) is a large magnitude in the other direction.
+
+
+__Ex. 3__ --  Generate a random 4 x 5 matrix, and find its singular value decomposition using R.
+
+```{r, ex-3}
+
+random_matrix <- matrix(rnorm(20),nrow=4)
+
+ex3_svd <- svd(random_matrix) 
+```
+
+The _svd_ function in R returns the three matrices that comprise the decomposition: for the starting matrix A, the function returns D, the diagonal matrix, as well as U and V, the left and right orthonormal matrices. They have the following equivalence:
+
+
+$$A = U D V^T$$
+We can confirm this by performing matrix math in R
+```{r, matrix-math}
+
+D <-diag(ex3_svd$d) #make vector diagonal
+U <-ex3_svd$u
+V <-ex3_svd$v 
+
+U %*% D %*% t(V)
+random_matrix
+
+```
+
+
+__Ex. 4__ --  First try to simulate 100 data points for _y_ using  $y = 5x_1 + 2x_2 + 2x_3 + x_4$ where $x_1, x_2$ are uniformly distributed in [1,2] while $x_3, x_4$ are normally distributed with zero mean and unit variance. Then, use the principal component analysis (PCA) to analyze the data to find its principal components. Are the results expected from the formula?
+
+
+```{r, ex4}
+
+
+y_matrix <- function(seed=1234) {
+  set.seed(seed)
+  x_1 <- runif(100, min = 1, max = 2)
+  x_2 <- runif(100, min = 1, max = 2)
+  x_3 <- rnorm(100, mean = 0, sd = 1)
+  x_4 <- rnorm(100, mean = 0, sd = 1)
+  y_func <- cbind(5*x_1, 2*x_2, 2*x_3, x_4)
+
+  return(y_func)
+}
+
+ex4_y <- y_matrix(1028)
+colnames(ex4_y) <- c('5x_1', '2x_2', '2x_3', 'x_4')
+
+```
+
+
+```{r, summary-stats}
+
+summary(ex4_y)
+sd(ex4_y[,1])
+sd(ex4_y[,2])
+sd(ex4_y[,3])
+sd(ex4_y[,4])
+```
+
+To begin, lets make sure the statistics for each column make sense. Columns for x_3 and x_4 are approximately centered around zero as expected. Standard deviation for x_4 is pretty close to one, and the expected standard deviations for $2x_3$ should be approximately $Var(2x_3) = 2^2 Var(x_3)$ or 2. The expected mean and standard deviations of x_1 and x_2 are 1.5 and ~0.289, values for $5x_1$ and $2x_2$ are approximately 5 and 2 times that. 
+
+
+
+```{r, ex4-pca-scaled}
+
+
+summary(prcomp(ex4_y, scale = TRUE))
+
+```
+
+After scaling, PCA indicates that there are in fact four features of approximately equal importance. Proportion of variance for each is between 0.2121 - 0.321, which means each random variable is approximately 25% contributor to variance.
+
+```{r, ex4-pca}
+
+prcomp(ex4_y)
+```
+
+Looking at the unscaled rotation matrix, PC1 is made up primarily of $2x_3$, which has the highest calculated standard deviation. The other three variables follow in the exact expected order as well.
+
+
+
+

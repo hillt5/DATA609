@@ -1,0 +1,631 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={HW5 - DATA 609},
+  pdfauthor={Thomas Hill},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+-\usepackage{caption}
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{HW5 - DATA 609}
+\author{Thomas Hill}
+\date{October 31, 2021}
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(knitr)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Ex. 1} -- Carry out the logistic regression (Example 22 on Page
+94) in R using the data
+
+\begin{longtable}[]{@{}lrrrrr@{}}
+\toprule
+\endhead
+x & 0.1 & 0.5 & 1.5 & 2 & 2.5\tabularnewline
+y & 0.0 & 1.0 & 1.0 & 1 & 0.0\tabularnewline
+\bottomrule
+\end{longtable}
+
+The formula is:
+
+\[y(x) = \frac{1}{1 + e^{-(a+bx)}}\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p\_i \textless{}{-}}\StringTok{ }\ControlFlowTok{function}\NormalTok{(}\DataTypeTok{a\_i =} \DecValTok{1}\NormalTok{, }\DataTypeTok{b\_i =} \DecValTok{1}\NormalTok{, x\_val) \{}
+\NormalTok{  fxn \textless{}{-}}\StringTok{ }\DecValTok{1}\OperatorTok{/}\NormalTok{(}\DecValTok{1}\OperatorTok{+}\KeywordTok{exp}\NormalTok{(}\OperatorTok{{-}}\DecValTok{1}\OperatorTok{*}\NormalTok{(a\_i }\OperatorTok{+}\StringTok{ }\NormalTok{b\_i}\OperatorTok{*}\NormalTok{(x\_val)))) }\CommentTok{\#formula}
+  \KeywordTok{return}\NormalTok{(fxn)}
+\NormalTok{\}}
+
+\KeywordTok{p\_i}\NormalTok{(}\DataTypeTok{x\_val =}\NormalTok{ x)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.7502601 0.8175745 0.9241418 0.9525741 0.9706878
+\end{verbatim}
+
+Above are the values for \(P_i\) according to binary logistic regression
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{log\_lik \textless{}{-}}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x\_i, y\_i) \{}
+\NormalTok{  p\_xi \textless{}{-}}\StringTok{ }\KeywordTok{p\_i}\NormalTok{(}\DataTypeTok{x\_val =}\NormalTok{ x\_i)}
+\NormalTok{  fxn \textless{}{-}}\StringTok{ }\NormalTok{y\_i }\OperatorTok{*}\StringTok{ }\KeywordTok{log}\NormalTok{(p\_xi) }\OperatorTok{+}\StringTok{ }\NormalTok{(}\DecValTok{1}\OperatorTok{{-}}\NormalTok{y\_i) }\OperatorTok{*}\StringTok{ }\KeywordTok{log}\NormalTok{(}\DecValTok{1}\OperatorTok{{-}}\NormalTok{p\_xi)}
+  \KeywordTok{return}\NormalTok{(fxn)}
+\NormalTok{\}}
+
+\KeywordTok{log\_lik}\NormalTok{(}\DataTypeTok{x\_i =}\NormalTok{ x ,}\DataTypeTok{y\_i =}\NormalTok{ y) }\CommentTok{\#L\_i}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -1.38733533 -0.20141328 -0.07888973 -0.04858735 -3.52975042
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sum}\NormalTok{(}\KeywordTok{log\_lik}\NormalTok{(}\DataTypeTok{x\_i =}\NormalTok{ x ,}\DataTypeTok{y\_i =}\NormalTok{ y)) }\CommentTok{\#log{-}likelihood objective, assuming a\_i = b\_i = 1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -5.245976
+\end{verbatim}
+
+Additionally, here is \(L_i\) and log-likelihood objective.
+
+Using the equation that logistic function \(S(x)\) has derivative
+\(S'(x) = S(x)(1 - S(x))\), the Jacobian can quickly be derived as:
+
+\[\begin {bmatrix}
+S(x)(1-S(x)) \\
+-x * S(x)(1-S(x))
+\end {bmatrix}\]
+
+Using code from the previous module to carry out the Newton method for
+estimating parameters.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{a\_}\DecValTok{0}\NormalTok{ \textless{}{-}}\StringTok{ }\DecValTok{1}
+\NormalTok{b\_}\DecValTok{0}\NormalTok{ \textless{}{-}}\StringTok{ }\DecValTok{1}
+\NormalTok{initial\_params \textless{}{-}}\StringTok{ }\KeywordTok{matrix}\NormalTok{(a\_}\DecValTok{0}\NormalTok{,b\_}\DecValTok{0}\NormalTok{, }\DataTypeTok{nrow =} \DecValTok{2}\NormalTok{)}
+
+
+\NormalTok{drda \textless{}{-}}\StringTok{ }\KeywordTok{p\_i}\NormalTok{(}\DataTypeTok{x\_val =}\NormalTok{ x) }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{{-}}\StringTok{ }\KeywordTok{p\_i}\NormalTok{(}\DataTypeTok{x\_val =}\NormalTok{ x))}
+\NormalTok{drdb \textless{}{-}}\StringTok{ }\OperatorTok{{-}}\NormalTok{x }\OperatorTok{*}\StringTok{ }\KeywordTok{p\_i}\NormalTok{(}\DataTypeTok{x\_val =}\NormalTok{ x) }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{{-}}\StringTok{ }\KeywordTok{p\_i}\NormalTok{(}\DataTypeTok{x\_val =}\NormalTok{ x))}
+
+\NormalTok{ex1\_j \textless{}{-}}\StringTok{ }\KeywordTok{cbind}\NormalTok{(drda,drdb) }\CommentTok{\#initial jacobian}
+\KeywordTok{print}\NormalTok{(ex1\_j)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##            drda        drdb
+## [1,] 0.18736988 -0.01873699
+## [2,] 0.14914645 -0.07457323
+## [3,] 0.07010372 -0.10515557
+## [4,] 0.04517666 -0.09035332
+## [5,] 0.02845302 -0.07113256
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ex1\_resid \textless{}{-}}\StringTok{ }\KeywordTok{matrix}\NormalTok{(y }\OperatorTok{{-}}\StringTok{ }\KeywordTok{p\_i}\NormalTok{(}\DataTypeTok{x\_val =}\NormalTok{ x)) }\CommentTok{\#initial residuals}
+\KeywordTok{print}\NormalTok{(ex1\_resid)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##             [,1]
+## [1,] -0.75026011
+## [2,]  0.18242552
+## [3,]  0.07585818
+## [4,]  0.04742587
+## [5,] -0.97068777
+\end{verbatim}
+
+Where \(\frac{dR}{da} = -\frac{e^{-(a+bx)}}{(1+e^(-(a+bx)))^2}\) and
+\(\frac{dR}{da} = -\frac{xe^{-(a+bx)}}{(1+e^(-(a+bx)))^2}\)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{initial\_input \textless{}{-}}\StringTok{ }\KeywordTok{list}\NormalTok{(initial\_params, ex1\_resid, ex1\_j)}
+\NormalTok{ex1\_solve \textless{}{-}}\StringTok{ }\ControlFlowTok{function}\NormalTok{(}\DataTypeTok{list\_input =}\NormalTok{ initial\_input) \{}
+\NormalTok{  params \textless{}{-}}\StringTok{ }\NormalTok{list\_input[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{  R \textless{}{-}}\StringTok{ }\NormalTok{list\_input[[}\DecValTok{2}\NormalTok{]]}
+\NormalTok{  J \textless{}{-}}\StringTok{ }\NormalTok{list\_input[[}\DecValTok{3}\NormalTok{]]}
+
+  
+\NormalTok{  newton \textless{}{-}}\StringTok{ }\NormalTok{params }\OperatorTok{{-}}\StringTok{ }\KeywordTok{solve}\NormalTok{(}\KeywordTok{t}\NormalTok{(J) }\OperatorTok{\%*\%}\StringTok{ }\NormalTok{J) }\OperatorTok{\%*\%}\StringTok{ }\KeywordTok{t}\NormalTok{(J) }\OperatorTok{\%*\%}\StringTok{ }\NormalTok{R }\CommentTok{\#gauss{-}newton algorithm}
+\NormalTok{  ex1\_solve.result \textless{}{-}}\StringTok{ }\NormalTok{newton }\CommentTok{\#t + 1 iteration of parameter estimates}
+\NormalTok{  p\_xhat \textless{}{-}}\StringTok{ }\KeywordTok{p\_i}\NormalTok{(}\DataTypeTok{a\_i =}\NormalTok{ ex1\_solve.result[}\DecValTok{1}\NormalTok{], }\DataTypeTok{b\_i =}\NormalTok{ ex1\_solve.result[}\DecValTok{2}\NormalTok{], }\DataTypeTok{x\_val =}\NormalTok{ x) }\CommentTok{\#calculate new S(x) with new parameters}
+  
+\NormalTok{  ex1\_solve.resid \textless{}{-}}\StringTok{ }\NormalTok{y }\OperatorTok{{-}}\StringTok{ }\NormalTok{p\_xhat }\CommentTok{\#calculate new residual}
+\NormalTok{  ex1\_solve.drda \textless{}{-}}\StringTok{  }\NormalTok{p\_xhat }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{{-}}\StringTok{ }\NormalTok{p\_xhat) }\CommentTok{\#update parameters in dRda}
+\NormalTok{  ex1\_solve.drdb \textless{}{-}}\StringTok{ }\OperatorTok{{-}}\NormalTok{x }\OperatorTok{*}\StringTok{ }\NormalTok{p\_xhat }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{{-}}\StringTok{ }\NormalTok{p\_xhat) }\CommentTok{\#update parameters in dRdb }
+\NormalTok{  ex1\_solve.jacobian \textless{}{-}}\StringTok{ }\KeywordTok{cbind}\NormalTok{(ex1\_solve.drda,ex1\_solve.drdb) }\CommentTok{\#recalculate jacobian using above derivatives}
+    \KeywordTok{return}\NormalTok{(}\KeywordTok{list}\NormalTok{(ex1\_solve.result,ex1\_solve.resid, ex1\_solve.jacobian)) }\CommentTok{\#return list to allow for multiple iterations}
+\NormalTok{\}}
+
+
+\NormalTok{first\_iteration \textless{}{-}}\StringTok{ }\KeywordTok{ex1\_solve}\NormalTok{()}
+\KeywordTok{print}\NormalTok{(first\_iteration)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [[1]]
+##          [,1]
+## drda 3.060204
+## drdb 1.022345
+## 
+## [[2]]
+## [1] -0.95939605  0.02734817  0.01001386  0.00603040 -0.99637426
+## 
+## [[3]]
+##      ex1_solve.drda ex1_solve.drdb
+## [1,]    0.038955271   -0.003895527
+## [2,]    0.026600252   -0.013300126
+## [3,]    0.009913581   -0.014870372
+## [4,]    0.005994035   -0.011988069
+## [5,]    0.003612591   -0.009031477
+\end{verbatim}
+
+After trying several iterations of this, my build of the algorithm does
+not find adequate parameters for minimizing the sum of the residuals.
+Next, I'll try using the \emph{glm} function built into R.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ex1\_glm \textless{}{-}}\StringTok{ }\KeywordTok{glm}\NormalTok{(y }\OperatorTok{\textasciitilde{}}\StringTok{ }\NormalTok{x, }\DataTypeTok{family =} \KeywordTok{binomial}\NormalTok{(}\DataTypeTok{link =} \StringTok{\textquotesingle{}logit\textquotesingle{}}\NormalTok{))}
+\KeywordTok{print}\NormalTok{(ex1\_glm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:  glm(formula = y ~ x, family = binomial(link = "logit"))
+## 
+## Coefficients:
+## (Intercept)            x  
+##     0.35127      0.04116  
+## 
+## Degrees of Freedom: 4 Total (i.e. Null);  3 Residual
+## Null Deviance:       6.73 
+## Residual Deviance: 6.728     AIC: 10.73
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{log\_lik\_}\DecValTok{2}\NormalTok{ \textless{}{-}}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x\_i, y\_i) \{}
+\NormalTok{  p\_xi \textless{}{-}}\StringTok{ }\KeywordTok{p\_i}\NormalTok{(}\DataTypeTok{a\_i =}\NormalTok{ ex1\_glm}\OperatorTok{$}\NormalTok{coefficients[[}\DecValTok{1}\NormalTok{]], }\DataTypeTok{b\_i =}\NormalTok{ ex1\_glm}\OperatorTok{$}\NormalTok{coefficients[[}\DecValTok{2}\NormalTok{]], }\DataTypeTok{x\_val =}\NormalTok{ x\_i)}
+\NormalTok{  fxn \textless{}{-}}\StringTok{ }\NormalTok{y\_i }\OperatorTok{*}\StringTok{ }\KeywordTok{log}\NormalTok{(p\_xi) }\OperatorTok{+}\StringTok{ }\NormalTok{(}\DecValTok{1}\OperatorTok{{-}}\NormalTok{y\_i) }\OperatorTok{*}\StringTok{ }\KeywordTok{log}\NormalTok{(}\DecValTok{1}\OperatorTok{{-}}\NormalTok{p\_xi)}
+  \KeywordTok{return}\NormalTok{(fxn)}
+\NormalTok{\}}
+
+\KeywordTok{log\_lik\_2}\NormalTok{(x, y)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.8865435 -0.5244083 -0.5078140 -0.4996694 -0.9457999
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sum}\NormalTok{(}\KeywordTok{log\_lik\_2}\NormalTok{(}\DataTypeTok{x\_i =}\NormalTok{ x, }\DataTypeTok{y\_i =}\NormalTok{ y))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -3.364235
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(}\KeywordTok{p\_i}\NormalTok{(}\DataTypeTok{a\_i =}\NormalTok{ ex1\_glm}\OperatorTok{$}\NormalTok{coefficients[[}\DecValTok{1}\NormalTok{]], }\DataTypeTok{b\_i =}\NormalTok{ ex1\_glm}\OperatorTok{$}\NormalTok{coefficients[[}\DecValTok{2}\NormalTok{]], }\DataTypeTok{x\_val =}\NormalTok{ x))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW5_HillT_files/figure-latex/plot-1.pdf}
+
+The parameters of \(a = 0.35127, b = 0.04116\) appear to maximize the
+sum log-likelihood around approximately -3.364.
+
+\textbf{Ex. 2} -- Using the motor car database (mtcars) of the built-in
+datasets in R, carry out the basic principal component analysis and
+explain your result.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(mtcars)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(}\KeywordTok{prcomp}\NormalTok{(mtcars, }\DataTypeTok{scale =} \OtherTok{TRUE}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Importance of components:
+##                           PC1    PC2     PC3     PC4     PC5     PC6    PC7
+## Standard deviation     2.5707 1.6280 0.79196 0.51923 0.47271 0.46000 0.3678
+## Proportion of Variance 0.6008 0.2409 0.05702 0.02451 0.02031 0.01924 0.0123
+## Cumulative Proportion  0.6008 0.8417 0.89873 0.92324 0.94356 0.96279 0.9751
+##                            PC8    PC9    PC10   PC11
+## Standard deviation     0.35057 0.2776 0.22811 0.1485
+## Proportion of Variance 0.01117 0.0070 0.00473 0.0020
+## Cumulative Proportion  0.98626 0.9933 0.99800 1.0000
+\end{verbatim}
+
+\emph{mtcars} is a dataframe that contains characteristics of 32
+different cars and their impact on several indicators of vehicle
+performance. Using the \emph{prcomp} function returns two major lists:
+the first shows the contribution to to variance that each principal
+component adds. The 11 components are ranked by size of the standard
+deviation, with the first component being the largest. The easiest way
+to interpret the importance of the component is looking at the
+proportion of variance it explains. For instance, the first component
+explains 60\% of variance between car features. Beyond this, we can also
+see that the first five components explain nearly 95\% of variance. This
+is is a promising finding, as it means of the 11 original variables,
+there are some that could be omitted in a preliminary model to explain
+the relationship between car design and performance. Next, lets look
+what the components are made of.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{prcomp}\NormalTok{(mtcars, }\DataTypeTok{scale =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Standard deviations (1, .., p=11):
+##  [1] 2.5706809 1.6280258 0.7919579 0.5192277 0.4727061 0.4599958 0.3677798
+##  [8] 0.3505730 0.2775728 0.2281128 0.1484736
+## 
+## Rotation (n x k) = (11 x 11):
+##             PC1         PC2         PC3          PC4         PC5         PC6
+## mpg  -0.3625305  0.01612440 -0.22574419 -0.022540255  0.10284468 -0.10879743
+## cyl   0.3739160  0.04374371 -0.17531118 -0.002591838  0.05848381  0.16855369
+## disp  0.3681852 -0.04932413 -0.06148414  0.256607885  0.39399530 -0.33616451
+## hp    0.3300569  0.24878402  0.14001476 -0.067676157  0.54004744  0.07143563
+## drat -0.2941514  0.27469408  0.16118879  0.854828743  0.07732727  0.24449705
+## wt    0.3461033 -0.14303825  0.34181851  0.245899314 -0.07502912 -0.46493964
+## qsec -0.2004563 -0.46337482  0.40316904  0.068076532 -0.16466591 -0.33048032
+## vs   -0.3065113 -0.23164699  0.42881517 -0.214848616  0.59953955  0.19401702
+## am   -0.2349429  0.42941765 -0.20576657 -0.030462908  0.08978128 -0.57081745
+## gear -0.2069162  0.46234863  0.28977993 -0.264690521  0.04832960 -0.24356284
+## carb  0.2140177  0.41357106  0.52854459 -0.126789179 -0.36131875  0.18352168
+##               PC7          PC8          PC9        PC10         PC11
+## mpg   0.367723810 -0.754091423  0.235701617  0.13928524 -0.124895628
+## cyl   0.057277736 -0.230824925  0.054035270 -0.84641949 -0.140695441
+## disp  0.214303077  0.001142134  0.198427848  0.04937979  0.660606481
+## hp   -0.001495989 -0.222358441 -0.575830072  0.24782351 -0.256492062
+## drat  0.021119857  0.032193501 -0.046901228 -0.10149369 -0.039530246
+## wt   -0.020668302 -0.008571929  0.359498251  0.09439426 -0.567448697
+## qsec  0.050010522 -0.231840021 -0.528377185 -0.27067295  0.181361780
+## vs   -0.265780836  0.025935128  0.358582624 -0.15903909  0.008414634
+## am   -0.587305101 -0.059746952 -0.047403982 -0.17778541  0.029823537
+## gear  0.605097617  0.336150240 -0.001735039 -0.21382515 -0.053507085
+## carb -0.174603192 -0.395629107  0.170640677  0.07225950  0.319594676
+\end{verbatim}
+
+This next call to \emph{prcomp} offers a look at what each component is
+composed of. The first component relates many of the features together
+in correlations that would make sense in the real world. For example,
+miles per gallon (mpg) and weight (wt) are opposite signs, while number
+of cylinders (cyl) and engine size (disp) are same signs. Also notable
+to pick out are these variables have the largest weights relative to
+other features. In the second variable, note that mpg and cyl contribute
+far less rotation, with coefficients of 0.016 and 0.043. Instead, PC2
+offers relationships between the complexity of the engine - transmission
+(am), gears, and carburetors (carb) are the largest contributors, while
+quarter mile time (qsec) is a large magnitude in the other direction.
+
+\textbf{Ex. 3} -- Generate a random 4 x 5 matrix, and find its singular
+value decomposition using R.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{random\_matrix \textless{}{-}}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{rnorm}\NormalTok{(}\DecValTok{20}\NormalTok{),}\DataTypeTok{nrow=}\DecValTok{4}\NormalTok{)}
+
+\NormalTok{ex3\_svd \textless{}{-}}\StringTok{ }\KeywordTok{svd}\NormalTok{(random\_matrix) }
+\end{Highlighting}
+\end{Shaded}
+
+The \emph{svd} function in R returns the three matrices that comprise
+the decomposition: for the starting matrix A, the function returns D,
+the diagonal matrix, as well as U and V, the left and right orthonormal
+matrices. They have the following equivalence:
+
+\[A = U D V^T\] We can confirm this by performing matrix math in R
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{D \textless{}{-}}\KeywordTok{diag}\NormalTok{(ex3\_svd}\OperatorTok{$}\NormalTok{d) }\CommentTok{\#make vector diagonal}
+\NormalTok{U \textless{}{-}ex3\_svd}\OperatorTok{$}\NormalTok{u}
+\NormalTok{V \textless{}{-}ex3\_svd}\OperatorTok{$}\NormalTok{v }
+
+\NormalTok{U }\OperatorTok{\%*\%}\StringTok{ }\NormalTok{D }\OperatorTok{\%*\%}\StringTok{ }\KeywordTok{t}\NormalTok{(V)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##            [,1]      [,2]       [,3]       [,4]         [,5]
+## [1,]  0.3324297 1.7901610  2.1384963  1.2513795  0.004215687
+## [2,] -1.5892989 0.3210455 -0.5484564 -0.3918118 -1.213444595
+## [3,]  1.0240992 1.2128072 -0.1915051 -0.1759940 -0.004865867
+## [4,] -1.2834428 0.7407588 -0.4135691 -0.5432398  0.855381513
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{random\_matrix}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##            [,1]      [,2]       [,3]       [,4]         [,5]
+## [1,]  0.3324297 1.7901610  2.1384963  1.2513795  0.004215687
+## [2,] -1.5892989 0.3210455 -0.5484564 -0.3918118 -1.213444595
+## [3,]  1.0240992 1.2128072 -0.1915051 -0.1759940 -0.004865867
+## [4,] -1.2834428 0.7407588 -0.4135691 -0.5432398  0.855381513
+\end{verbatim}
+
+\textbf{Ex. 4} -- First try to simulate 100 data points for \emph{y}
+using \(y = 5x_1 + 2x_2 + 2x_3 + x_4\) where \(x_1, x_2\) are uniformly
+distributed in {[}1,2{]} while \(x_3, x_4\) are normally distributed
+with zero mean and unit variance. Then, use the principal component
+analysis (PCA) to analyze the data to find its principal components. Are
+the results expected from the formula?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{y\_matrix \textless{}{-}}\StringTok{ }\ControlFlowTok{function}\NormalTok{(}\DataTypeTok{seed=}\DecValTok{1234}\NormalTok{) \{}
+  \KeywordTok{set.seed}\NormalTok{(seed)}
+\NormalTok{  x\_}\DecValTok{1}\NormalTok{ \textless{}{-}}\StringTok{ }\KeywordTok{runif}\NormalTok{(}\DecValTok{100}\NormalTok{, }\DataTypeTok{min =} \DecValTok{1}\NormalTok{, }\DataTypeTok{max =} \DecValTok{2}\NormalTok{)}
+\NormalTok{  x\_}\DecValTok{2}\NormalTok{ \textless{}{-}}\StringTok{ }\KeywordTok{runif}\NormalTok{(}\DecValTok{100}\NormalTok{, }\DataTypeTok{min =} \DecValTok{1}\NormalTok{, }\DataTypeTok{max =} \DecValTok{2}\NormalTok{)}
+\NormalTok{  x\_}\DecValTok{3}\NormalTok{ \textless{}{-}}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{, }\DataTypeTok{mean =} \DecValTok{0}\NormalTok{, }\DataTypeTok{sd =} \DecValTok{1}\NormalTok{)}
+\NormalTok{  x\_}\DecValTok{4}\NormalTok{ \textless{}{-}}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{, }\DataTypeTok{mean =} \DecValTok{0}\NormalTok{, }\DataTypeTok{sd =} \DecValTok{1}\NormalTok{)}
+\NormalTok{  y\_func \textless{}{-}}\StringTok{ }\KeywordTok{cbind}\NormalTok{(}\DecValTok{5}\OperatorTok{*}\NormalTok{x\_}\DecValTok{1}\NormalTok{, }\DecValTok{2}\OperatorTok{*}\NormalTok{x\_}\DecValTok{2}\NormalTok{, }\DecValTok{2}\OperatorTok{*}\NormalTok{x\_}\DecValTok{3}\NormalTok{, x\_}\DecValTok{4}\NormalTok{)}
+
+  \KeywordTok{return}\NormalTok{(y\_func)}
+\NormalTok{\}}
+
+\NormalTok{ex4\_y \textless{}{-}}\StringTok{ }\KeywordTok{y\_matrix}\NormalTok{(}\DecValTok{1028}\NormalTok{)}
+\KeywordTok{colnames}\NormalTok{(ex4\_y) \textless{}{-}}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{\textquotesingle{}5x\_1\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}2x\_2\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}2x\_3\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}x\_4\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(ex4\_y)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       5x_1            2x_2            2x_3              x_4         
+##  Min.   :5.041   Min.   :2.001   Min.   :-5.6042   Min.   :-1.7775  
+##  1st Qu.:6.186   1st Qu.:2.423   1st Qu.:-1.2634   1st Qu.:-0.6808  
+##  Median :7.886   Median :2.931   Median :-0.1838   Median : 0.1044  
+##  Mean   :7.668   Mean   :2.918   Mean   :-0.2489   Mean   : 0.1036  
+##  3rd Qu.:9.143   3rd Qu.:3.433   3rd Qu.: 1.0010   3rd Qu.: 0.7353  
+##  Max.   :9.983   Max.   :3.997   Max.   : 4.6198   Max.   : 2.3147
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sd}\NormalTok{(ex4\_y[,}\DecValTok{1}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.572789
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sd}\NormalTok{(ex4\_y[,}\DecValTok{2}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.5819646
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sd}\NormalTok{(ex4\_y[,}\DecValTok{3}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.845164
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sd}\NormalTok{(ex4\_y[,}\DecValTok{4}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.9983244
+\end{verbatim}
+
+To begin, lets make sure the statistics for each column make sense.
+Columns for x\_3 and x\_4 are approximately centered around zero as
+expected. Standard deviation for x\_4 is pretty close to one, and the
+expected standard deviations for \(2x_3\) should be approximately
+\(Var(2x_3) = 2^2 Var(x_3)\) or 2. The expected mean and standard
+deviations of x\_1 and x\_2 are 1.5 and \textasciitilde0.289, values for
+\(5x_1\) and \(2x_2\) are approximately 5 and 2 times that.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(}\KeywordTok{prcomp}\NormalTok{(ex4\_y, }\DataTypeTok{scale =} \OtherTok{TRUE}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Importance of components:
+##                          PC1    PC2    PC3    PC4
+## Standard deviation     1.133 0.9821 0.9490 0.9226
+## Proportion of Variance 0.321 0.2411 0.2251 0.2128
+## Cumulative Proportion  0.321 0.5621 0.7872 1.0000
+\end{verbatim}
+
+After scaling, PCA indicates that there are in fact four features of
+approximately equal importance. Proportion of variance for each is
+between 0.2121 - 0.321, which means each random variable is
+approximately 25\% contributor to variance.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{prcomp}\NormalTok{(ex4\_y)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Standard deviations (1, .., p=4):
+## [1] 1.8745813 1.5484787 0.9861738 0.5738024
+## 
+## Rotation (n x k) = (4 x 4):
+##              PC1         PC2         PC3         PC4
+## 5x_1 -0.26998634 -0.96119570  0.04228371  0.03771314
+## 2x_2 -0.04843510 -0.02675898 -0.02734377 -0.99809334
+## 2x_3 -0.95662569  0.27416103  0.09146524  0.03656671
+## x_4   0.09812595  0.01491655  0.99453432 -0.03240800
+\end{verbatim}
+
+Looking at the unscaled rotation matrix, PC1 is made up primarily of
+\(2x_3\), which has the highest calculated standard deviation. The other
+three variables follow in the exact expected order as well.
+
+\end{document}
