@@ -1,0 +1,22 @@
+---
+title: "HW7 - DATA 609"
+author: "Thomas Hill"
+date: "December 5, 2021"
+output:
+  html_document: default
+  pdf_document: default
+header-includes: -\usepackage{caption}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+__Ex. 1__ -- Use the _svm()_ algorithm of the _e1071_ package to carry out the support vector machine for the PlantGrowth dataset. Then, discuss the number of support vectors/samples [Install the _e1071_ package in R if needed.] 
+
+__Ex. 2__ -- Do a similar SVM analysis as that in the previous section using the _iris_ dataset. Discuss the number of support vectors/samples. 
+
+__Ex. 3__ -- Use the _iris_ dataset (or any other dataset) to select 80% of the samples for training _svm()_, then use the remaining 20% for validation. Discuss your results. 
+
+ 

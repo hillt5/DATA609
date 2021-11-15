@@ -1,0 +1,17 @@
+---
+title: "HW8 - DATA 609"
+author: "Thomas Hill"
+date: "December 12, 2021"
+output:
+  html_document: default
+  pdf_document: default
+header-includes: -\usepackage{caption}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+__Ex. 1__ -- Use the _nnet_ package to analyze the _iris_ dataset. Use 80% of the 150 samples as the training data and the rest for validation. Discuss the results 
+
+__Ex. 2__ -- As a mini project, install the _keras_ package and learn how to use it. Then, carry out various tasks that may be useful for your project and studies. 
