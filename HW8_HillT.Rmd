@@ -16,8 +16,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r, library}
 
 library(nnet)
-library(keras)
-library(tensorflow)
 
 ```
 
