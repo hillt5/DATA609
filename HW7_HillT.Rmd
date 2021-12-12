@@ -13,10 +13,138 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
+```{r, libraries}
+
+library(caret)
+library(e1071)
+
+```
+
 __Ex. 1__ -- Use the _svm()_ algorithm of the _e1071_ package to carry out the support vector machine for the PlantGrowth dataset. Then, discuss the number of support vectors/samples [Install the _e1071_ package in R if needed.] 
+
+
+```{r, plant-plot}
+
+plot(PlantGrowth)
+
+
+```
+
+PlantGrowth is a dataset that gives weight as the independent variable and labels each plant with one of three labels as levels of a factor. I'll consider two different kernels: the radial kernel, which is the default kernel used in _svm_, and the linear kernel.
+
+
+```{r, ex-1}
+
+pg_fit_rad <- svm(formula = group ~ weight, data = PlantGrowth, kenel = 'radial')
+pg_fit_lin <- svm(formula = group ~ weight, data = PlantGrowth, kernel = 'linear')
+
+```
+
+Next, lets see how well each model predicts the categories in the original dataset.
+
+```{r, rad-fit-pg}
+
+rad_predict <- predict(pg_fit_rad, PlantGrowth)
+
+100*round(table(rad_predict, PlantGrowth$group)/30,3)
+
+```
+
+
+Per the initial data, each class is one third (33% of the data). Each row represents the predicted classification, while the columns are the true designation. For the radial fit, only 10% are predicted to be part of the control, while treatment 2 is overrepresented. This kernel only predicts the correct class 50% of the time.
+
+```{r, lin-fit-pg}
+
+lin_predict <- predict(pg_fit_lin, PlantGrowth)
+
+100*round(table(lin_predict, PlantGrowth$group)/30,3)
+
+
+
+```
+
+The linear kernel performs no better, with again 50% of the true classes predicted accurately. It does appear more sensitive to identifying the control group,  while sacrificing performance with respect to identifying treatment 2. Treatment 1 appears unchanged. 
+
+```{r, n-sv-pg}
+
+print(pg_fit_rad$tot.nSV)
+print(pg_fit_lin$tot.nSV)
+
+```
+
+Finally, lets consider the number of support vectors generated using each kernel. Both models in this case offer over two dozen support vectors, nearly as many as the number of samples in the original dataset. This indicates that each model is complex to accommodate the variation amongst the classes. Both numbers are high, so it's not clear that the linear kernel is significantly less complex than the radial.
+
 
 __Ex. 2__ -- Do a similar SVM analysis as that in the previous section using the _iris_ dataset. Discuss the number of support vectors/samples. 
 
+```{r, iris-summary}
+
+
+summary(iris)
+```
+
+The _iris_ dataset has four variables being considered, with three possible categories. Again, lets consider two different kernels for the svm and how well they predict the classes of the original data
+
+
+```{r, ex-2}
+
+iris_fit_rad <- svm(formula = Species ~., data = iris, kenel = 'radial')
+iris_fit_lin <- svm(formula = Species ~., data = iris, kenel = 'linear')
+
+```
+
+
+```{r, rad-fit-iris}
+
+rad_predict_iris <- predict(iris_fit_rad, iris)
+
+100*round(table(rad_predict_iris, iris$Species)/150,3)
+
+```
+
+
+Again, each species comprises 33% of the original data (columns). The predicted species in each row is significantly better than the PlantGrowth example. All _setosa_ species are correctly classified, and nearly all of the other two species are. 
+
+
+```{r, lin-fit-iris}
+
+lin_predict_iris <- predict(iris_fit_lin, iris)
+
+100*round(table(lin_predict_iris, iris$Species)/150,3)
+
+
+```
+
+The linear kernel offers similar performance.
+
+
+```{r, n-sv-iris}
+
+print(iris_fit_rad$tot.nSV)
+print(iris_fit_lin$tot.nSV)
+
+```
+
+Finally, both kernels have the same number of support vectors: 51. This is significantly smaller than the initial sample of 150. This indicates that the svm was able to distinguish between the three species using a relatively simple model.
+
+
 __Ex. 3__ -- Use the _iris_ dataset (or any other dataset) to select 80% of the samples for training _svm()_, then use the remaining 20% for validation. Discuss your results. 
 
- 
+```{r, iris-svm}
+set.seed(1205)
+
+train_index <- sample(seq_len(150), size =120) #generate random index separating iris into specified samples
+train <- iris[train_index,] #training data
+test <- iris[-train_index,] #test data
+
+test_cat <- iris[-train_index, 5]  #true designations for test
+
+
+m_iris <- svm(formula = Species ~., data =train, kernel = 'radial') #iris model
+iris_predict <- predict(m_iris, test) #find predicted categories
+
+100*round(table(iris_predict, test_cat)/30,3) #contingency table
+print(m_iris$tot.nSV)
+```
+
+Using a 20% cross-validation technique, a similar model is generated compared to example 2. The number of support vectors is slightly lower than the non-validated model, with n = 47. 
